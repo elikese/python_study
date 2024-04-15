@@ -1,4 +1,5 @@
 import pymysql
+import pymysql.cursors
 
 class BookRepository:
 
@@ -17,7 +18,8 @@ class BookRepository:
             password=cls.password,
             database=cls.database
         )
-        cursor = connection.cursor()
+        
+        cursor = connection.cursor(pymysql.cursors.DictCursor)
         sql = 'insert into book_tb values (0, %s, %s, %s, %s, 1, 1, 0, now(), now())'
         cursor.execute(sql, (book.bookName, book.authorName, book.publisherName, book.isbn))
         connection.commit()
